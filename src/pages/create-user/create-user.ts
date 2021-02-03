@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { ValidateConfirmPassword } from '../../validators/confirmPassword';
 
 @IonicPage({
   name: 'create-user'
@@ -10,11 +12,19 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class CreateUserPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  registerForm: FormGroup;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public formbuilder: FormBuilder) {
+    this.registerForm = this.formbuilder.group({
+      name: [null, [Validators.required, Validators.minLength(5)]],
+      email: [null, [Validators.required, Validators.email]],
+      password: [null, [Validators.required, Validators.minLength(6)]],
+      confirmPassword: [null, [Validators.required, Validators.minLength(6), ValidateConfirmPassword]]
+    })
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad CreateUserPage');
+  submitForm(){
+    console.log(this.registerForm.value)
   }
 
 }
